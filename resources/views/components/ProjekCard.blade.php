@@ -101,7 +101,7 @@
                     <i class="bi bi-award-fill"></i>
                 </span>
                 <div>
-                    <div class="meta-key">Ketua</div>
+                    <div class="meta-key">Leader</div>
                     <div class="meta-val">{{ $leader }}</div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                     <i class="bi bi-tags-fill"></i>
                 </span>
                 <div>
-                    <div class="meta-key">Kategori</div>
+                    <div class="meta-key">Group</div>
                     <div class="meta-val">{{ $kategori }}</div>
                 </div>
             </div>

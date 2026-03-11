@@ -4,7 +4,6 @@ const apiToken = localStorage.getItem("api_token");
 axios.defaults.headers.common["Authorization"] = `Bearer ${apiToken}`;
 axios.defaults.headers.common["Accept"] = "application/json";
 
-// Store used task IDs globally to avoid reload
 let usedTaskIds = [];
 
 const updateUsedTaskIds = () => {

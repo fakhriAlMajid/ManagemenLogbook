@@ -1,37 +1,120 @@
+/* =========================================================
+   LIST.CSS — Activity Plan Gantt Chart
+   Responsive: Mobile / Tablet / Desktop / Large Screen
+   ========================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap");
+
 :root {
-    --header-height: 70px;
-    --row-height: 50px;
+    --header-height: 68px;
+    --row-height: 52px;
+    --left-width: 420px;
+
+    --color-navy: #0f2d45;
+    --color-navy-light: #143752;
+    --color-blue-soft: #e8f3fc;
+    --color-accent: #ff7d00;
+    --color-accent-glow: rgba(255, 125, 0, 0.25);
+    --color-border: #dde3ea;
+    --color-bg: #f4f7fb;
+    --color-surface: #ffffff;
+    --color-text: #1a2b3c;
+    --color-text-muted: #5c7389;
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+
+    --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+    --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ===================== BASE ===================== */
+body {
+    font-family: "DM Sans", sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+/* ===================== LAYOUT ===================== */
 .main-content {
     margin-left: 125px;
-    padding: 2rem;
-    background-color: #f8f9fa;
+    padding: 2rem 2rem 3rem;
+    background-color: var(--color-bg);
+    min-height: 100vh;
+}
+
+/* ===================== ACTIVITY WRAP ===================== */
+.activity-container {
+    border-radius: var(--radius-lg) !important;
+    overflow: hidden;
+    box-shadow: var(--shadow-md) !important;
+    border: 1px solid var(--color-border) !important;
 }
 
 .activity-wrap {
     display: flex;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
+    flex-direction: row;
+    background-color: var(--color-surface);
     overflow: hidden;
-    background-color: white;
+    min-height: 300px;
 }
 
+/* ===================== LEFT PANEL ===================== */
 .activity-left {
-    width: 420px;
+    width: var(--left-width);
     flex-shrink: 0;
-    z-index: 10;
-    background: white;
+    z-index: 30;
+    background: var(--color-surface);
+    border-right: 1px solid var(--color-border);
+    overflow: hidden;
+    transition:
+        width 0.4s var(--transition-smooth),
+        opacity 0.3s var(--transition-smooth);
+    opacity: 1;
 }
 
+.activity-wrap.is-collapsed .activity-left {
+    width: 0 !important;
+    opacity: 0;
+    border-right: none;
+}
+
+/* ===================== COLLAPSED STATE ===================== */
+.inline-task-collapse,
+.inline-title-collapse {
+    display: none;
+    align-items: center;
+}
+
+.activity-wrap.is-collapsed .inline-task-collapse {
+    display: flex;
+}
+.activity-wrap.is-collapsed .inline-title-collapse {
+    display: block;
+}
+
+.activity-wrap.is-collapsed .row-modul-timeline {
+    background-color: var(--color-navy-light) !important;
+}
+.activity-wrap.is-collapsed .row-kegiatan-timeline {
+    background-color: var(--color-blue-soft) !important;
+}
+
+/* ===================== LEFT HEADER ===================== */
 .activity-left-head {
     height: var(--header-height);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
-    box-sizing: border-box; 
+    background: linear-gradient(135deg, #f8fafc 0%, #eef3f8 100%);
+    border-bottom: 2px solid var(--color-border);
+    box-sizing: border-box;
+    width: var(--left-width);
+    padding: 0 16px 0 0;
 }
 
 .col-task {
@@ -40,54 +123,133 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-right: 15px;
+    padding-right: 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
 }
 
 .col-pic {
-    width: 140px;
+    width: 130px;
     flex-shrink: 0;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
 }
 
-.task-row {
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-.task-row:hover {
-    background-color: #f1f3f5;
-}
-
-.activity-right {
-    flex-grow: 1;
-    overflow: hidden;
-    position: relative;
-    border-left: 1px solid #dee2e6;
-}
-
-.timeline-header {
-    height: var(--header-height);
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    border-bottom: 1px solid #343a40;
-    box-sizing: border-box;
-    background: linear-gradient(to bottom, #ffffff 50%, #343a40 50%);
-}
-
+/* ===================== ROW ITEMS ===================== */
 .row-item {
     height: var(--row-height);
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f4f8;
     box-sizing: border-box;
     display: flex;
     align-items: center;
 }
 
-.bg-dark-blue { background-color: #143752 !important; }
-.bg-light-blue { background-color: #f0f7ff !important; }
+/* Module rows */
+.module-row {
+    background: linear-gradient(
+        90deg,
+        var(--color-navy) 0%,
+        var(--color-navy-light) 100%
+    ) !important;
+    color: white !important;
+    position: relative;
+}
+.module-row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: var(--color-accent);
+}
 
+/* Kegiatan rows */
+.kegiatan-row {
+    background-color: var(--color-blue-soft) !important;
+    color: #1a5276 !important;
+    border-bottom: 1px solid #d6e9f8;
+}
+
+/* Task rows */
+.task-row {
+    cursor: pointer;
+    transition:
+        background-color 0.15s ease,
+        transform 0.1s ease;
+    width: var(--left-width);
+    background-color: var(--color-surface);
+}
+.task-row:hover {
+    background-color: #f0f6ff;
+}
+.task-row:active {
+    transform: scaleX(0.995);
+}
+
+/* ===================== BADGES ===================== */
+.badge.bg-light {
+    background-color: #eef2f7 !important;
+    color: var(--color-text-muted) !important;
+    border: 1px solid var(--color-border) !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em;
+    border-radius: 20px !important;
+    padding: 4px 10px !important;
+}
+
+/* ===================== RIGHT PANEL ===================== */
+.activity-right {
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ===================== TIMELINE HEADER ===================== */
+.timeline-header {
+    height: var(--header-height);
+    position: sticky;
+    top: 0;
+    z-index: 100 !important;
+    border-bottom: 2px solid #2c3e50;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom, #ffffff 50%, #2c3e50 50%);
+}
+
+/* ===================== TIMELINE CONTENT ===================== */
 .timeline-scroll-container {
     overflow-x: auto;
     overflow-y: hidden;
     height: 100%;
+    /* Custom scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+}
+.timeline-scroll-container::-webkit-scrollbar {
+    height: 6px;
+}
+.timeline-scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+.timeline-scroll-container::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: 3px;
+}
+.timeline-scroll-container::-webkit-scrollbar-thumb:hover {
+    background-color: #b0bec9;
+}
+
+.timeline-body {
+    position: relative;
+    background-color: var(--color-surface);
+    z-index: 1;
 }
 
 .timeline-content {
@@ -95,37 +257,55 @@
     min-height: 100%;
 }
 
+/* ===================== TIMELINE SPACERS ===================== */
+.row-modul-timeline {
+    background: linear-gradient(
+        90deg,
+        var(--color-navy) 0%,
+        var(--color-navy-light) 100%
+    ) !important;
+}
+.row-kegiatan-timeline {
+    background-color: var(--color-blue-soft) !important;
+    border-bottom: 1px solid #d6e9f8;
+}
+
+/* ===================== DATE LABELS ===================== */
 .month-label {
     position: absolute;
     top: 8px;
     font-weight: 800;
-    font-size: 0.8rem;
-    color: #143752;
-    padding-left: 8px;
-    border-left: 3px solid #ff7d00;
+    font-size: 0.75rem;
+    color: var(--color-navy);
+    padding: 2px 8px 2px 10px;
+    border-left: 3px solid var(--color-accent);
     white-space: nowrap;
     z-index: 21;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 .day-number {
     position: absolute;
-    bottom: 8px;
-    font-size: 0.85rem;
+    bottom: 7px;
+    font-size: 0.8rem;
     color: #ffffff;
     transform: translateX(-50%);
-    font-weight: 600;
+    font-weight: 700;
     z-index: 22;
+    font-family: "JetBrains Mono", monospace;
 }
 
 .day-grid-line {
     position: absolute;
-    top: 0;
+    top: var(--header-height) !important;
     bottom: 0;
     width: 1px;
-    background-color: #f1f3f5;
-    z-index: 1;
+    background-color: #edf1f5;
+    z-index: 1 !important;
 }
 
+/* ===================== BARS ===================== */
 .bar-container {
     display: flex;
     align-items: center;
@@ -133,22 +313,33 @@
 
 .duration-bar {
     position: absolute;
-    height: 28px;
-    background-color: #e9ecef;
-    border-radius: 4px;
+    height: 30px;
+    background-color: #dce8f5;
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
-    border: 1px solid #ced4da;
-    overflow: hidden;
+    border: 1px solid #b9d0e8;
+    overflow: visible;
     cursor: pointer;
     z-index: 5;
-    transition: box-shadow 0.3s, border-color 0.3s;
+    transition:
+        box-shadow 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.15s ease;
+}
+.duration-bar:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 90, 180, 0.15);
+    border-color: #7aaed6;
 }
 
 .highlight-active {
-    box-shadow: 0 0 0 3px rgba(255, 125, 0, 0.5) !important;
-    border-color: #ff7d00 !important;
+    box-shadow:
+        0 0 0 3px var(--color-accent-glow),
+        0 4px 12px rgba(255, 125, 0, 0.2) !important;
+    border-color: var(--color-accent) !important;
     z-index: 10 !important;
+    transform: translateY(-1px);
 }
 
 .progress-fill {
@@ -156,52 +347,330 @@
     left: 0;
     top: 0;
     height: 100%;
-    background-color: #0d6efd;
+    background: linear-gradient(90deg, #1a6abf 0%, #2d8eef 100%);
     z-index: 1;
+    border-radius: 5px;
+    pointer-events: none !important;
 }
 
 .progress-text {
     position: relative;
     z-index: 2;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
-    color: #343a40;
+    color: var(--color-text);
     white-space: nowrap;
+    font-family: "JetBrains Mono", monospace;
+    pointer-events: none !important;
 }
 
 .text-white-force {
     color: white !important;
 }
 
+/* ===================== INLINE COLLAPSE LABELS ===================== */
+.inline-task-collapse {
+    position: absolute;
+    left: 100%;
+    padding-left: 10px;
+    gap: 6px;
+}
+
+.inline-task-collapse .badge {
+    font-size: 0.68rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+/* ===================== TODAY MARKER ===================== */
 .today-marker {
     position: absolute;
     top: 0;
     bottom: 0;
     width: 2px;
-    z-index: 50;
+    z-index: auto !important;
     pointer-events: none;
 }
 
 .today-marker .line {
     position: absolute;
-    top: var(--header-height);
+    top: var(--header-height) !important;
     bottom: 0;
     width: 2px;
-    background: #ff7d00;
-    box-shadow: 0 0 4px rgba(255, 125, 0, 0.4);
+    background: var(--color-accent);
+    box-shadow: 0 0 8px var(--color-accent-glow);
+    z-index: 1 !important;
 }
 
 .today-marker .label {
     position: absolute;
-    top: 22px;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background: #ff7d00;
+    background: var(--color-accent);
     color: white;
     font-size: 10px;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
     white-space: nowrap;
-    z-index: 22;
+    z-index: 105 !important;
+    letter-spacing: 0.04em;
+    box-shadow: 0 2px 8px var(--color-accent-glow);
+}
+
+/* ===================== PAGE HEADER ===================== */
+.activity-header h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    letter-spacing: -0.02em;
+}
+.activity-header h4 {
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+    font-weight: 400;
+}
+
+/* Toggle Button */
+#btnToggleList {
+    border-radius: 20px !important;
+    padding: 6px 16px !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em;
+    transition: all 0.2s ease !important;
+    gap: 6px;
+}
+#btnToggleList:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET (≤ 1024px)
+   ========================================================= */
+@media (max-width: 1024px) {
+    :root {
+        --left-width: 260px;
+        --header-height: 62px;
+        --row-height: 48px;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 1.25rem 1.25rem 4rem;
+    }
+
+    .activity-left-head,
+    .task-row {
+        width: var(--left-width);
+    }
+
+    .col-task {
+        font-size: 0.78rem;
+    }
+
+    .col-pic {
+        width: 110px;
+    }
+
+    .activity-header h2 {
+        font-size: 1.3rem;
+    }
+    .activity-header h4 {
+        font-size: 0.92rem;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — MOBILE (≤ 768px)
+   ========================================================= */
+@media (max-width: 768px) {
+    :root {
+        --header-height: 52px;
+        --row-height: 42px;
+        --left-width: 180px;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 0.75rem 0.75rem 5rem;
+    }
+
+    .activity-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 2px;
+        margin-bottom: 0.5rem !important;
+    }
+    .activity-header h2 {
+        font-size: 1.1rem;
+    }
+    .activity-header h4 {
+        font-size: 0.82rem;
+        margin-left: 0 !important;
+    }
+
+    .d-flex.justify-content-between {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .col-pic,
+    .col-pic span {
+        display: none !important;
+    }
+
+    .activity-left {
+        width: var(--left-width) !important;
+        box-shadow: 4px 0 16px rgba(0, 0, 0, 0.07);
+        position: relative;
+        z-index: 30;
+    }
+
+    .activity-left-head,
+    .task-row {
+        width: var(--left-width);
+    }
+
+    .activity-left-head {
+        padding: 0 8px;
+    }
+
+    .col-task {
+        font-size: 0.72rem;
+        padding-left: 8px !important;
+    }
+
+    .month-label {
+        font-size: 0.58rem;
+        top: 5px;
+        padding: 1px 6px 1px 8px;
+        border-left-width: 2px;
+        letter-spacing: 0.03em;
+        /* Floating pill on mobile */
+        background-color: #fff;
+        border-radius: 0 4px 4px 0;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        z-index: 25;
+    }
+
+    .day-number {
+        font-size: 0.65rem;
+        bottom: 4px;
+    }
+
+    .duration-bar {
+        height: 24px;
+        border-radius: 4px;
+    }
+
+    .progress-text {
+        font-size: 0.6rem;
+    }
+
+    .today-marker .label {
+        font-size: 9px;
+        top: 14px;
+        padding: 2px 5px;
+    }
+
+    #btnToggleList {
+        padding: 5px 10px !important;
+        font-size: 0.75rem !important;
+    }
+
+    .breadcrumb {
+        font-size: 0.8rem;
+    }
+
+    .module-row .d-flex,
+    .kegiatan-row .d-flex {
+        font-size: 0.72rem;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — SMALL MOBILE (≤ 480px)
+   ========================================================= */
+@media (max-width: 480px) {
+    :root {
+        --header-height: 46px;
+        --row-height: 38px;
+        --left-width: 145px;
+    }
+
+    .main-content {
+        padding: 0.5rem 0.5rem 6rem;
+    }
+
+    .activity-left {
+        width: var(--left-width) !important;
+    }
+    .activity-left-head,
+    .task-row {
+        width: var(--left-width);
+    }
+
+    .col-task {
+        font-size: 0.68rem;
+        padding-left: 6px !important;
+    }
+
+    .duration-bar {
+        height: 20px;
+    }
+
+    .progress-text {
+        font-size: 0.58rem;
+    }
+
+    .month-label {
+        font-size: 0.55rem;
+    }
+
+    .day-number {
+        font-size: 0.6rem;
+    }
+
+    .today-marker .label {
+        font-size: 8px;
+        padding: 1px 4px;
+    }
+
+    .activity-container {
+        border-radius: var(--radius-md) !important;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — LARGE SCREEN (≥ 1440px)
+   ========================================================= */
+@media (min-width: 1440px) {
+    :root {
+        --left-width: 460px;
+        --header-height: 72px;
+        --row-height: 56px;
+    }
+
+    .col-task {
+        font-size: 0.88rem;
+    }
+
+    .duration-bar {
+        height: 32px;
+    }
+
+    .progress-text {
+        font-size: 0.78rem;
+    }
+
+    .month-label {
+        font-size: 0.82rem;
+    }
+
+    .day-number {
+        font-size: 0.88rem;
+    }
 }

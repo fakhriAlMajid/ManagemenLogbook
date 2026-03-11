@@ -8,12 +8,14 @@ document.addEventListener("DOMContentLoaded", () => {
         search: document.getElementById("search"),
         status: document.getElementById("status"),
         searchBtn: document.getElementById("searchBtn"),
+
         errorMsg: document.getElementById("errorMsg"),
         logoutBtn: document.getElementById("logoutBtn"),
         navbarSearchInput: document.getElementById("navbarSearchInput"),
         filterBtn: document.getElementById("filterBtn"),
         filterDropdown: document.getElementById("filterDropdown"),
         sortBtn: document.getElementById("sortBtn"),
+        kategoriBtn: document.getElementById("kategoriBtn"),
         kategoriFilterBtn: document.getElementById("kategoriFilterBtn"),
         kategoriFilterDropdown: document.getElementById(
             "kategoriFilterDropdown",
@@ -38,6 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
         ? new Modal(elements.modalElement)
         : null;
     const apiBase = "/api";
+
+    const userData = JSON.parse(localStorage.getItem("user_data") || "{}");
+    const currentUserRole = userData.role;
+
+    if (currentUserRole !== "Admin") {
+        elements.kategoriBtn?.classList.add("d-none");
+    }
 
     // State
     const state = {

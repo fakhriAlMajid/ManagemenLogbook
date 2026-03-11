@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             Swal.fire({
                 icon: "success",
-                title: "Berhasil!",
+                title: "Success!",
                 text: res.data.message,
                 timer: 1500,
                 showConfirmButton: false,
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             Swal.fire({
                 icon: "success",
-                title: "Berhasil!",
+                title: "Success!",
                 text: res.data.message,
                 timer: 1500,
                 showConfirmButton: false,
@@ -73,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-
 // Fetch and Render
 async function fetchKategori() {
     const tbody = document.getElementById("tableBodyKategori");
@@ -81,7 +80,7 @@ async function fetchKategori() {
         <tr>
             <td colspan="5" class="loading-row">
                 <div class="loading-spinner"></div>
-                <p class="text-muted mt-3 mb-0">Memuat data kategori...</p>
+                <p class="text-muted mt-3 mb-0">Loading groups...</p>
             </td>
         </tr>
     `;
@@ -100,10 +99,10 @@ async function fetchKategori() {
                             <div class="empty-state-icon">
                                 <i class="bi bi-inbox"></i>
                             </div>
-                            <h5>Belum Ada Kategori</h5>
-                            <p>Mulai tambahkan kategori baru untuk mengorganisir proyek Anda</p>
+                            <h5>No Groups Yet</h5>
+                            <p>Start adding new groups to organize your projects</p>
                             <button class="btn btn-add-kategori mt-3" data-bs-toggle="modal" data-bs-target="#modalAddKategori">
-                                <i class="bi bi-plus-lg"></i> Tambah Kategori Pertama
+                                <i class="bi bi-plus-lg"></i> Add First Group
                             </button>
                         </div>
                     </td>
@@ -115,12 +114,12 @@ async function fetchKategori() {
         categories.forEach((ktg, index) => {
             const isActive = ktg.ktg_is_active == 1;
             const badgeClass = isActive ? "badge-aktif" : "badge-nonaktif";
-            const badgeText = isActive ? "Aktif" : "Nonaktif";
+            const badgeText = isActive ? "Active" : "Inactive";
             const btnToggleClass = isActive
                 ? "btn-toggle-active"
                 : "btn-toggle-inactive";
             const btnToggleIcon = isActive ? "bi-eye-slash" : "bi-eye";
-            const btnToggleTitle = isActive ? "Nonaktifkan" : "Aktifkan";
+            const btnToggleTitle = isActive ? "Deactivate" : "Activate";
             const initials = ktg.ktg_nama
                 .split(" ")
                 .map((n) => n[0])
@@ -130,7 +129,7 @@ async function fetchKategori() {
             const descClass = ktg.ktg_deskripsi
                 ? "category-desc"
                 : "category-desc empty";
-            const descText = ktg.ktg_deskripsi || "Tidak ada deskripsi";
+            const descText = ktg.ktg_deskripsi || "No description";
 
             const tr = document.createElement("tr");
             tr.innerHTML = `
@@ -170,10 +169,10 @@ async function fetchKategori() {
                         <div class="empty-state-icon" style="background: rgba(220, 53, 69, 0.1); color: #dc3545;">
                             <i class="bi bi-exclamation-triangle"></i>
                         </div>
-                        <h5>Gagal Memuat Data</h5>
-                        <p>Terjadi kesalahan saat mengambil data dari server. Silakan coba lagi.</p>
+                        <h5>Failed to Load Data</h5>
+                        <p>An error occurred while fetching data from the server. Please try again.</p>
                         <button class="btn btn-outline-primary mt-3" onclick="fetchKategori()">
-                            <i class="bi bi-arrow-clockwise me-1"></i> Coba Lagi
+                            <i class="bi bi-arrow-clockwise me-1"></i> Try Again
                         </button>
                     </div>
                 </td>
@@ -202,18 +201,18 @@ window.editKategori = async (id) => {
 
 // Toggle Status Handler
 window.toggleStatus = (id, currentStatus) => {
-    const actionText = currentStatus ? "menonaktifkan" : "mengaktifkan";
+    const actionText = currentStatus ? "deactivate" : "activate";
     const confirmBtnColor = currentStatus ? "#ffc107" : "#198754";
 
     Swal.fire({
-        title: currentStatus ? "Nonaktifkan Kategori?" : "Aktifkan Kategori?",
-        text: `Anda yakin ingin ${actionText} kategori ini?`,
+        title: currentStatus ? "Deactivate Group?" : "Activate Group?",
+        text: `Are you sure you want to ${actionText} this group?`,
         icon: "question",
         showCancelButton: true,
         confirmButtonColor: confirmBtnColor,
         cancelButtonColor: "#6c757d",
-        confirmButtonText: "Ya, Lanjutkan!",
-        cancelButtonText: "Batal",
+        confirmButtonText: "Yes, Continue!",
+        cancelButtonText: "Cancel",
         reverseButtons: true,
         customClass: {
             popup: "rounded-3",
@@ -227,7 +226,7 @@ window.toggleStatus = (id, currentStatus) => {
             const res = await axios.patch(`/api/kategori/${id}/toggle-status`);
             Swal.fire({
                 icon: "success",
-                title: "Berhasil!",
+                title: "Success!",
                 text: res.data.message,
                 timer: 1500,
                 showConfirmButton: false,
@@ -244,25 +243,25 @@ window.toggleStatus = (id, currentStatus) => {
 // Delete Handler
 window.deleteKategori = (id, nama) => {
     Swal.fire({
-        title: "Hapus Kategori?",
+        title: "Delete Group?",
         html: `
             <div class="text-center mb-3">
                 <div class="mb-3" style="font-size: 3rem; color: #dc3545;">
                     <i class="bi bi-trash"></i>
                 </div>
-                <p class="mb-1">Anda yakin ingin menghapus</p>
+                <p class="mb-1">Are you sure you want to delete</p>
                 <h5 class="text-dark fw-bold">"${nama}"</h5>
             </div>
             <div class="alert alert-warning d-flex align-items-center text-start" style="font-size: 0.875rem;">
                 <i class="bi bi-info-circle-fill me-2"></i>
-                <div>Projek yang menggunakan kategori ini tidak akan terpengaruh.</div>
+                <div>Projects using this group will not be affected.</div>
             </div>
         `,
         showCancelButton: true,
         confirmButtonColor: "#dc3545",
         cancelButtonColor: "#6c757d",
-        confirmButtonText: "Ya, Hapus!",
-        cancelButtonText: "Batal",
+        confirmButtonText: "Yes, Delete!",
+        cancelButtonText: "Cancel",
         reverseButtons: true,
         customClass: {
             popup: "rounded-3",
@@ -275,7 +274,7 @@ window.deleteKategori = (id, nama) => {
             const res = await axios.delete(`/api/kategori/${id}`);
             Swal.fire({
                 icon: "success",
-                title: "Terhapus!",
+                title: "Deleted!",
                 text: res.data.message,
                 timer: 1500,
                 showConfirmButton: false,
@@ -292,10 +291,10 @@ window.deleteKategori = (id, nama) => {
 // Error Handler
 function showError(err) {
     const message =
-        err.response?.data?.message || "Terjadi kesalahan pada server.";
+        err.response?.data?.message || "An error occurred on the server.";
     Swal.fire({
         icon: "error",
-        title: "Gagal!",
+        title: "Failed!",
         text: message,
         confirmButtonColor: "#143752",
         customClass: {

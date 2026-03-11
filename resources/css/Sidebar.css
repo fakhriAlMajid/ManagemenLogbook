@@ -1,7 +1,7 @@
 :root {
     --sidebar-gradient-start: #143752;
     --sidebar-gradient-end: #0c2d46;
-    --sidebar-width: 100px; /* Ditingkatkan dari 90px */
+    --sidebar-width: 100px;
     --sidebar-text: rgba(255, 255, 255, 0.7);
     --sidebar-text-active: #ffffff;
     --sidebar-hover: rgba(255, 255, 255, 0.08);
@@ -16,28 +16,29 @@
     left: 15px;
     width: var(--sidebar-width);
     height: calc(100vh - var(--navbar-height) - 40px);
-    
-    background: linear-gradient(165deg, 
-        rgba(20, 55, 82, 0.95) 0%, 
+
+    background: linear-gradient(
+        165deg,
+        rgba(20, 55, 82, 0.95) 0%,
         rgba(12, 45, 70, 0.98) 50%,
         rgba(10, 35, 55, 1) 100%
     );
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    
+
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 2rem 0;
     z-index: 1000;
-    
+
     border-radius: 24px;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 
+    box-shadow:
         0 8px 32px rgba(0, 0, 0, 0.3),
         0 2px 8px rgba(0, 0, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    
+
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -46,7 +47,7 @@
     flex-direction: column;
     gap: 0.75rem;
     width: 100%;
-    padding: 0 10px; /* Dikurangi dari 12px */
+    padding: 0 10px;
 }
 
 .sidebar-item {
@@ -56,22 +57,23 @@
     justify-content: center;
     text-decoration: none;
     color: var(--sidebar-text);
-    padding: 14px 4px; /* Horizontal padding dikurangi */
+    padding: 14px 4px;
     position: relative;
     border-radius: 16px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
-    width: 100%; /* Pastikan mengisi lebar */
-    min-width: 0; /* Penting untuk text truncation */
+    width: 100%;
+    min-width: 0;
 }
 
 /* Glassmorphism effect on hover */
 .sidebar-item::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.1) 0%, 
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1) 0%,
         rgba(255, 255, 255, 0.05) 100%
     );
     opacity: 0;
@@ -93,34 +95,34 @@
     position: relative;
     z-index: 1;
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    flex-shrink: 0; /* Mencegah icon menyusut */
+    flex-shrink: 0;
 }
 
-/* Label Styling - PERBAIKAN UTAMA */
+/* Label Styling */
 .sidebar-item .label {
-    font-size: 0.65rem; /* Dikurangi dari 0.7rem */
+    font-size: 0.65rem;
     font-weight: 500;
-    letter-spacing: 0.3px; /* Dikurangi dari 0.8px */
+    letter-spacing: 0.3px;
     text-transform: uppercase;
     position: relative;
     z-index: 1;
     transition: all 0.3s ease;
     text-align: center;
     line-height: 1.2;
-    max-width: 100%; /* Batasi lebar maksimal */
+    max-width: 100%;
     overflow: hidden;
-    text-overflow: ellipsis; /* Tambahkan ellipsis jika terpotong */
-    white-space: nowrap; /* Mencegah wrap */
+    text-overflow: ellipsis;
+    white-space: nowrap;
     display: block;
     width: 100%;
-    padding: 0 2px; /* Sedikit padding horizontal */
+    padding: 0 2px;
 }
 
 /* Hover State */
 .sidebar-item:hover {
     color: var(--sidebar-text-active);
     transform: translateY(-2px);
-    box-shadow: 
+    box-shadow:
         0 4px 12px rgba(0, 0, 0, 0.2),
         0 0 20px rgba(255, 255, 255, 0.05);
 }
@@ -132,11 +134,12 @@
 /* Active State */
 .sidebar-item.active {
     color: var(--sidebar-text-active);
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.15) 0%, 
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.15) 0%,
         rgba(255, 255, 255, 0.05) 100%
     );
-    box-shadow: 
+    box-shadow:
         inset 0 1px 1px rgba(255, 255, 255, 0.1),
         0 4px 15px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -149,22 +152,27 @@
 
 /* Active Indicator - Modern Pill */
 .sidebar-item.active::after {
-    content: '';
+    content: "";
     position: absolute;
-    left: -10px; /* Disesuaikan dengan padding baru */
+    left: -10px;
     top: 50%;
     transform: translateY(-50%);
     width: 4px;
     height: 20px;
-    background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.6) 100%);
+    background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.6) 100%);
     border-radius: 0 4px 4px 0;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     animation: pulse 2s ease-in-out infinite;
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
 }
 
 /* Tooltip */
@@ -190,7 +198,7 @@
 }
 
 .tooltip::before {
-    content: '';
+    content: "";
     position: absolute;
     left: -6px;
     top: 50%;
@@ -206,24 +214,128 @@
     transform: translateY(-50%) scale(1);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .project-sidebar {
-        left: 10px;
-        width: 70px;
-        border-radius: 20px;
+        position: fixed;
+        bottom: 20px; /* Jarak dari bawah layar agar melayang */
+        left: 50%;
+        transform: translateX(-50%); /* Menengahkan posisi floating */
+        top: auto;
+        right: auto;
+        width: calc(100% - 40px); /* Memberikan jarak kiri & kanan */
+        height: auto;
+        padding: 10px 15px; /* Padding didalam kotak */
+        border-radius: 24px; /* Bulat disemua sudut */
+        flex-direction: row; /* Berubah menjadi horizontal */
+        justify-content: center;
+        align-items: center;
     }
-    
-    .sidebar-item .label {
-        display: none;
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: row; /* Navigasi berjejer kesamping */
+        gap: 0; /* Gap diatur melalui flex/padding item */
+        padding: 0;
+        justify-content: space-around; /* Jarak antar icon merata */
+        align-items: center;
+        width: 100%;
     }
-    
+
     .sidebar-item {
-        padding: 18px 8px;
+        flex-direction: column;
+        padding: 10px;
+        min-width: 0;
+        flex: 1; /* Agar area ketukan tiap menu sama besar */
     }
-    
+
     .sidebar-item .icon-wrapper {
         font-size: 1.5rem;
         margin-bottom: 0;
+    }
+
+    /* Ubah indikator active (garis putih) agar ada di bawah icon, bukan di samping kiri */
+    .sidebar-item.active::after {
+        left: 50%;
+        top: auto;
+        bottom: -2px;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 4px;
+        border-radius: 4px 4px 0 0;
+    }
+
+    .tooltip {
+        display: none;
+    }
+
+    .main-content {
+        padding-bottom: 100px; /* Beri jarak bawah agar konten tidak tertutup floating menu */
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .project-sidebar {
+        position: fixed;
+        bottom: 20px; /* Jarak dari bawah layar agar melayang */
+        left: 50%;
+        transform: translateX(-50%); /* Menengahkan posisi floating */
+        top: auto;
+        right: auto;
+        width: calc(100% - 40px); /* Memberikan jarak kiri & kanan */
+        height: auto;
+        padding: 10px 15px; /* Padding didalam kotak */
+        border-radius: 24px; /* Bulat disemua sudut */
+        flex-direction: row; /* Berubah menjadi horizontal */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: row; /* Navigasi berjejer kesamping */
+        gap: 0; /* Gap diatur melalui flex/padding item */
+        padding: 0;
+        justify-content: space-around; /* Jarak antar icon merata */
+        align-items: center;
+        width: 100%;
+    }
+
+    .sidebar-item {
+        flex-direction: column;
+        padding: 10px;
+        min-width: 0;
+        flex: 1; /* Agar area ketukan tiap menu sama besar */
+    }
+
+    .sidebar-item .label {
+        display: none;
+    }
+
+    .sidebar-item .icon-wrapper {
+        font-size: 1.5rem;
+        margin-bottom: 0;
+    }
+
+    /* Ubah indikator active (garis putih) agar ada di bawah icon, bukan di samping kiri */
+    .sidebar-item.active::after {
+        left: 50%;
+        top: auto;
+        bottom: -2px;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 4px;
+        border-radius: 4px 4px 0 0;
+    }
+
+    .tooltip {
+        display: none;
+    }
+
+    .main-content {
+        padding-bottom: 100px; /* Beri jarak bawah agar konten tidak tertutup floating menu */
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 }

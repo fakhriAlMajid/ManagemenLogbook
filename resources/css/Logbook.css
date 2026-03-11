@@ -1,77 +1,466 @@
-/* Layout Utama */
+/* =========================================================
+   LOGBOOK.CSS — Logbook Page
+   Konsisten dengan desain List, EditProjek & Jobs
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap');
+
+:root {
+    --color-navy:        #0f2d45;
+    --color-navy-light:  #143752;
+    --color-navy-mid:    #1e5a8a;
+    --color-blue-soft:   #e8f3fc;
+    --color-accent:      #ff7d00;
+    --color-accent-glow: rgba(255, 125, 0, 0.2);
+    --color-border:      #dde3ea;
+    --color-bg:          #f4f7fb;
+    --color-surface:     #ffffff;
+    --color-text:        #1a2b3c;
+    --color-text-muted:  #5c7389;
+
+    --radius-sm:  6px;
+    --radius-md:  10px;
+    --radius-lg:  14px;
+
+    --shadow-sm:  0 1px 4px rgba(0,0,0,0.06);
+    --shadow-md:  0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg:  0 8px 32px rgba(0,0,0,0.12);
+}
+
+/* ===================== BASE ===================== */
+body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+/* ===================== LAYOUT ===================== */
 .main-content {
     margin-left: 125px;
-    padding: 2rem;
-    padding-top: 20px;
+    padding: 2rem 2rem 3rem;
+    background-color: var(--color-bg);
+    min-height: 100vh;
 }
 
-/* Header Card Biru Tua */
-.card-header-dark {
-    background-color: #143752;
-    color: white;
-    font-weight: 600;
+/* ===================== PAGE HEADER ===================== */
+.page-header-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 1.25rem;
 }
 
-/* Styling Tabel Logbook Sesuai dengan Jobs */
-.table-logbook thead th {
-    font-size: 0.75rem;
-    color: #6c757d;
-    text-transform: uppercase;
-    border: none;
-    font-weight: 600;
-    padding-bottom: 12px;
-    letter-spacing: 0.5px;
+.page-header-wrap h3 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--color-navy);
+    letter-spacing: -0.02em;
+    margin: 0;
 }
 
-.table-logbook tbody td {
-    font-size: 0.85rem;
-    padding: 12px 8px;
-    color: #333;
-    border-bottom: 1px solid #f2f2f2;
+.breadcrumb {
+    font-size: 0.8rem;
+    margin-bottom: 0;
 }
-
-/* Warna khusus untuk baris tertentu jika diperlukan */
-.table-hover tbody tr:hover {
-    background-color: #f8f9fa;
+.breadcrumb-item a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-weight: 500;
 }
+.breadcrumb-item a:hover { color: var(--color-navy); }
+.breadcrumb-item.active { color: var(--color-navy); font-weight: 600; }
+.breadcrumb-item + .breadcrumb-item::before { color: #b0bec9; }
 
-/* Styling tombol Tambah (Add) */
-.btn-add-kegiatan {
-    border: 2px solid #1e5a8a;
-    padding: 0.4rem 0;
-    border-radius: 5px;
-    color: #143752;
-    background-color: transparent;
-    font-weight: 600;
-    transition: all 0.3s;
-}
-
-.btn-add-kegiatan:hover {
-    background-color: #1e5a8a;
-    color: white;
-}
-
+/* ===================== BUTTONS ===================== */
 .btn-add-modul {
-    background-color: #1e5a8a;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, var(--color-navy-light) 0%, var(--color-navy-mid) 100%);
     color: white;
     border: none;
-    border-radius: 5px;
-    padding: 8px 15px;
+    border-radius: var(--radius-md);
+    padding: 9px 18px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+.btn-add-modul:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(15, 45, 69, 0.25);
+    background: linear-gradient(135deg, var(--color-navy-mid) 0%, var(--color-navy-light) 100%);
+    color: white;
+}
+.btn-add-modul:active { transform: scale(0.98); }
+
+.btn-add-kegiatan {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    border: 2px dashed #b0cce6;
+    padding: 9px 0;
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    background-color: transparent;
+    font-size: 0.82rem;
     font-weight: 600;
-    transition: all 0.1s;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+}
+.btn-add-kegiatan:hover {
+    background-color: var(--color-blue-soft);
+    border-color: var(--color-navy-mid);
+    color: var(--color-navy-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
 }
 
-.btn-add-modul:hover {
-    background-color: #184466;
+/* ===================== EMPTY STATE ===================== */
+.card.border-0 {
+    border-radius: var(--radius-lg) !important;
+    border: 1px solid var(--color-border) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* ===================== CARD ===================== */
+.card {
+    border-radius: var(--radius-lg) !important;
+    border: 1px solid var(--color-border) !important;
+    box-shadow: var(--shadow-md) !important;
+    overflow: hidden;
+}
+
+.card-header-dark {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
+    color: white;
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 0.03em;
+    border-bottom: none !important;
+    position: relative;
+    padding-left: 1.25rem !important;
+}
+
+
+/* ===================== TABLE ===================== */
+.table {
+    font-size: 0.84rem;
+    margin-bottom: 0;
+}
+
+.table thead th {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid var(--color-border) !important;
+    border-top: none !important;
+    padding: 10px 12px;
+    background-color: #f8fafc;
+    white-space: nowrap;
+}
+
+.table tbody tr {
+    transition: background-color 0.12s ease;
+}
+.table tbody tr:hover {
+    background-color: #f0f6ff !important;
+}
+.table tbody td {
+    padding: 10px 12px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f4f8;
+    color: var(--color-text);
+    font-size: 0.83rem;
+}
+.table tbody tr:last-child td { border-bottom: none; }
+
+.table tbody td.fw-medium {
+    font-weight: 600;
+    color: var(--color-navy);
+}
+
+/* Code cell */
+.table tbody td.text-muted.small {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--color-text-muted) !important;
+    letter-spacing: 0.03em;
+}
+
+/* Description truncated cell */
+.table tbody td small.text-muted {
+    font-size: 0.78rem;
+    color: var(--color-text-muted) !important;
+    font-style: italic;
+    display: block;
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ===================== TABLE SCROLLBAR ===================== */
+.table-responsive::-webkit-scrollbar { height: 5px; }
+.table-responsive::-webkit-scrollbar-track { background: transparent; }
+.table-responsive::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: 3px;
+}
+.table-responsive::-webkit-scrollbar-thumb:hover { background-color: #b0bec9; }
+
+/* ===================== BADGES ===================== */
+.badge.bg-success {
+    background: linear-gradient(135deg, #1a7a4a 0%, #198754 100%) !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    padding: 4px 10px !important;
+    border-radius: 20px !important;
+    letter-spacing: 0.02em;
+}
+.badge.bg-secondary {
+    background: linear-gradient(135deg, #4a5568 0%, #6c757d 100%) !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    padding: 4px 10px !important;
+    border-radius: 20px !important;
+}
+.badge.bg-light {
+    background-color: #eef2f7 !important;
+    color: var(--color-text-muted) !important;
+    border: 1px solid var(--color-border) !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    border-radius: 20px !important;
+    padding: 4px 10px !important;
+}
+
+/* ===================== ACTION BUTTON (View) ===================== */
+.btn.btn-sm.btn-dark {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    transition: all 0.15s ease;
+}
+.btn.btn-sm.btn-dark:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(15, 45, 69, 0.25);
+    opacity: 0.9;
+}
+
+/* ===================== MODAL ===================== */
+.modal-content {
+    border-radius: var(--radius-lg) !important;
+    border: none !important;
+    box-shadow: var(--shadow-lg) !important;
+    overflow: hidden;
+}
+.modal-header.card-header-dark {
+    padding: 15px 20px 15px 1.25rem !important;
+}
+.modal-title {
+    font-size: 0.92rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em;
+}
+.modal-body {
+    padding: 1.5rem !important;
+    background-color: var(--color-surface);
+}
+.modal-footer {
+    padding: 1rem 1.5rem !important;
+    border-top: 1px solid var(--color-border) !important;
+    background-color: #fafcff;
+}
+
+/* ===================== DETAIL MODAL ===================== */
+.detail-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    margin-bottom: 4px;
+}
+.detail-value {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-navy);
+    margin-bottom: 0;
+}
+.detail-value.code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.04em;
+}
+.detail-value.body-text {
+    font-weight: 400;
+    color: var(--color-text);
+    font-size: 0.86rem;
+    line-height: 1.6;
+}
+.detail-value.body-text em {
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+/* Divider antara detail group */
+.detail-divider {
+    border-color: var(--color-border);
+    opacity: 1;
+    margin: 1rem 0;
+}
+
+/* ===================== FORM ELEMENTS ===================== */
+.form-label {
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: var(--color-navy);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+.form-label.text-muted {
+    color: var(--color-text-muted) !important;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.form-control,
+.form-select {
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md) !important;
+    font-size: 0.87rem;
+    color: var(--color-text);
+    background-color: #fafcff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    padding: 10px 14px;
+}
+.form-control:focus,
+.form-select:focus {
+    border-color: #5ba4d4;
+    box-shadow: 0 0 0 3px rgba(91, 164, 212, 0.18);
+    background-color: var(--color-surface);
+    outline: none;
+}
+.form-control[readonly] {
+    background-color: #f4f7fb !important;
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+}
+.input-group .input-group-text {
+    border: 1.5px solid var(--color-border);
+    border-left: none;
+    background-color: #f4f7fb;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    font-size: 0.84rem;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0 !important;
+}
+.input-group .form-control {
+    border-right: none;
+    border-radius: var(--radius-md) 0 0 var(--radius-md) !important;
+}
+.input-group .form-control:focus {
+    border-right: none;
+}
+small.text-muted {
+    font-size: 0.73rem;
+    color: var(--color-text-muted) !important;
+}
+
+/* ===================== MODAL BUTTONS ===================== */
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-navy-light) 0%, #1e5276 100%);
+    border: none;
+    border-radius: var(--radius-md) !important;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    padding: 10px 22px;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(15, 45, 69, 0.25);
+}
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-secondary {
+    border-radius: var(--radius-md) !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+    background-color: #eef2f7;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    transition: all 0.15s ease;
+}
+.btn-secondary:hover {
+    background-color: #dde3ea;
+    color: var(--color-navy);
+}
+
+.btn-warning {
+    border-radius: var(--radius-md) !important;
+    font-weight: 700;
+    font-size: 0.84rem;
+    background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+    border: none;
+    color: white;
+    transition: all 0.15s ease;
+}
+.btn-warning:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3);
     color: white;
 }
 
-/* Styling Scrollbar Table Responsive (Optional) */
-.table-responsive::-webkit-scrollbar {
-    height: 6px;
+/* ===================== RESPONSIVE — Tablet (≤ 1024px) ===================== */
+@media (max-width: 1024px) {
+    .main-content {
+        margin-left: 0;
+        padding: 1.25rem 1.25rem 4rem;
+    }
+    .page-header-wrap h3 { font-size: 1.2rem; }
 }
 
-.table-responsive::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-    border-radius: 4px;
+/* ===================== RESPONSIVE — Mobile (≤ 768px) ===================== */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 0.75rem 0.75rem 5rem;
+    }
+    .page-header-wrap h3 { font-size: 1.05rem; }
+    .card { border-radius: var(--radius-md) !important; }
+    .table thead th { font-size: 0.65rem; padding: 8px; }
+    .table tbody td { font-size: 0.76rem; padding: 8px; }
+    .modal-body { padding: 1.25rem !important; }
+    .modal-footer { padding: 0.85rem 1.25rem !important; }
+}
+
+/* ===================== RESPONSIVE — Small Mobile (≤ 480px) ===================== */
+@media (max-width: 480px) {
+    .main-content { padding: 0.5rem 0.5rem 6rem; }
+
+    /* Sembunyikan kolom START, END, CODE di layar sangat kecil */
+    .table th:nth-child(4),
+    .table td:nth-child(4),
+    .table th:nth-child(5),
+    .table td:nth-child(5),
+    .table th:nth-child(7),
+    .table td:nth-child(7) { display: none; }
+
+    .table thead th { font-size: 0.6rem; }
+    .table tbody td { font-size: 0.72rem; padding: 7px 6px; }
+    .page-header-wrap h3 { font-size: 0.95rem; }
 }

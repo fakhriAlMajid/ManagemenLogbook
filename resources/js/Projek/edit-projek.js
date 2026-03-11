@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const kategoriSelect = document.getElementById("pjk_kategori");
 
     let currentUserRole = null;
+    let userAccountRole = null;
 
     // Load categories
     const loadCategories = async () => {
@@ -141,6 +142,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
                 const currentUserId = userData.usr_id || userData.id;
 
+                userAccountRole = userData.role;
+
                 const currentMember = members.find(
                     (m) => m.user.id === currentUserId,
                 );
@@ -156,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (
                     currentUserRole === "Ketua" ||
-                    currentUserRole === "Admin"
+                    userAccountRole === "Admin"
                 ) {
                     if (btnAddTeamMember)
                         btnAddTeamMember.style.display = "block";
@@ -385,7 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Only show remove button if user is Ketua
                     const removeButton =
                         currentUserRole === "Ketua" ||
-                        currentUserRole === "Admin"
+                        userAccountRole === "Admin"
                             ? `<button class="btn btn-sm btn-link text-danger btn-remove-member" 
                                     data-id="${m.id}" 
                                     title="Remove Member"
@@ -393,11 +396,16 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <i class="bi bi-x-circle-fill fs-5"></i>
                             </button>`
                             : "";
+                    const onClickEdit =
+                        currentUserRole === "Ketua" ||
+                        userAccountRole === "Admin"
+                            ? `openEditMemberModal(${m.id}, '${m.user.name}', '${m.role}')"`
+                            : "";
 
                     html += `
                         <div class="list-group-item member-item d-flex justify-content-between align-items-center py-3 px-3" 
                              style="cursor: pointer;"
-                             onclick="openEditMemberModal(${m.id}, '${m.user.name}', '${m.role}')">
+                             onclick="${onClickEdit}">
                             
                             <div class="d-flex align-items-center">
                                 <div class="avatar-circle me-3">${initials}</div>

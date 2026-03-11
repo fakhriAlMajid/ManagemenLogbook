@@ -1,136 +1,484 @@
+/* =========================================================
+   EDITPROJEK.CSS — Edit Project Page
+   Konsisten dengan desain List (Activity Plan)
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap');
+
+:root {
+    --color-navy:        #0f2d45;
+    --color-navy-light:  #143752;
+    --color-blue-soft:   #e8f3fc;
+    --color-accent-glow: rgba(255, 125, 0, 0.2);
+    --color-border:      #dde3ea;
+    --color-bg:          #f4f7fb;
+    --color-surface:     #ffffff;
+    --color-text:        #1a2b3c;
+    --color-text-muted:  #5c7389;
+
+    --radius-sm:  6px;
+    --radius-md:  10px;
+    --radius-lg:  14px;
+
+    --shadow-sm:  0 1px 4px rgba(0,0,0,0.06);
+    --shadow-md:  0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg:  0 8px 32px rgba(0,0,0,0.12);
+}
+
+/* ===================== BASE ===================== */
+body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+/* ===================== LAYOUT ===================== */
 .main-content {
     margin-left: 125px;
-    padding: 1rem;
-    background-color: #f8f9fa; /* Tambahan background agar kontras */
+    padding: 2rem 2rem 3rem;
+    background-color: var(--color-bg);
     min-height: 100vh;
 }
 
-.card-header-dark {
-    background-color: #143752;
-    color: white;
-    font-weight: 600;
+/* ===================== PAGE HEADER ===================== */
+.page-header-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 1.5rem;
 }
 
+.page-header-wrap h4 {
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin: 0;
+    letter-spacing: 0em;
+    line-height: 1.2;
+}
+
+.page-header-wrap h4 i {
+    color: #1e5276;
+}
+
+.breadcrumb {
+    font-size: 0.8rem;
+    margin-bottom: 0;
+}
+.breadcrumb-item a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-weight: 500;
+}
+.breadcrumb-item a:hover { color: var(--color-navy); }
+.breadcrumb-item.active { color: var(--color-navy); font-weight: 600; }
+.breadcrumb-item + .breadcrumb-item::before { color: #b0bec9; }
+
+/* ===================== CARDS ===================== */
+.card {
+    border-radius: var(--radius-lg) !important;
+    border: 1px solid var(--color-border) !important;
+    box-shadow: var(--shadow-md) !important;
+    overflow: hidden;
+}
+
+.card-header-dark {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
+    color: white;
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    border-bottom: none !important;
+    position: relative;
+    padding-left: 1.25rem !important;
+}
+
+/* ===================== FORM ELEMENTS ===================== */
 .form-label {
     font-weight: 600;
-    color: #344767;
+    font-size: 0.82rem;
+    color: var(--color-navy);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
 }
 
-/* Styling untuk List Member */
+.form-control,
+.form-select {
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md) !important;
+    font-size: 0.88rem;
+    color: var(--color-text);
+    background-color: #fafcff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    padding: 10px 14px;
+}
+.form-control:focus,
+.form-select:focus {
+    border-color: #5ba4d4;
+    box-shadow: 0 0 0 3px rgba(91, 164, 212, 0.18);
+    background-color: var(--color-surface);
+    outline: none;
+}
+.form-control.bg-light {
+    background-color: #f4f7fb !important;
+    color: var(--color-text-muted) !important;
+    cursor: not-allowed;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+hr {
+    border-color: var(--color-border);
+    opacity: 1;
+}
+
+/* ===================== BUTTONS ===================== */
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-navy-light) 0%, #1e5276 100%);
+    border: none;
+    border-radius: var(--radius-md) !important;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    padding: 10px 24px;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-outline-danger {
+    border-radius: var(--radius-md) !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+}
+.btn-outline-danger:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+}
+
+.btn-danger {
+    border-radius: var(--radius-md) !important;
+    font-weight: 700;
+    font-size: 0.88rem;
+    padding: 10px;
+    transition: all 0.15s ease;
+}
+
+.btn-secondary {
+    border-radius: var(--radius-md) !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+/* ===================== TEAM MEMBERS LIST ===================== */
 .member-item {
-    transition: background-color 0.2s;
-    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f4f8 !important;
+    transition: background-color 0.15s ease;
+    cursor: default;
 }
-
 .member-item:hover {
-    background-color: #f8f9fa;
+    background-color: #f4f8fc;
+}
+.member-item:last-child {
+    border-bottom: none !important;
 }
 
 .avatar-circle {
     width: 40px;
     height: 40px;
-    background-color: #e9ecef;
-    color: #143752;
+    background: linear-gradient(135deg, var(--color-navy) 0%, #1e5276 100%);
+    color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-    font-size: 1.1rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(15, 45, 69, 0.2);
+    font-family: 'DM Sans', sans-serif;
 }
 
-/* Tombol Dashed untuk Add Member */
+.member-name {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--color-text);
+    line-height: 1.2;
+}
+
+.member-role {
+    font-size: 0.74rem;
+    color: var(--color-text-muted);
+    margin-top: 2px;
+}
+
+/* Member count badge */
+#memberCount {
+    background-color: rgba(255,255,255,0.2) !important;
+    color: white !important;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 12px;
+    padding: 3px 10px;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* ===================== ADD MEMBER BUTTON ===================== */
 .dashed-border {
     border-style: dashed !important;
     border-width: 2px !important;
+    border-color: var(--color-border) !important;
+    border-radius: var(--radius-md) !important;
+    font-weight: 600;
+    font-size: 0.84rem;
+    color: var(--color-text-muted);
+    transition: all 0.2s ease;
+    padding: 10px;
 }
-
 .dashed-border:hover {
-    background-color: #f0f7ff;
-    border-color: #0d6efd !important;
-    color: #0d6efd;
+    background-color: var(--color-blue-soft);
+    border-color: #5ba4d4 !important;
+    color: var(--color-navy-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
 }
 
-/* --- MODAL ADD MEMBER STYLES --- */
+/* ===================== MODAL ===================== */
+.modal-content {
+    border-radius: var(--radius-lg) !important;
+    border: none !important;
+    box-shadow: var(--shadow-lg) !important;
+    overflow: hidden;
+}
 
 .modal-header-dark {
-    background-color: #143752; /* Dark Blue Header */
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
     border-bottom: none;
+    padding: 16px 20px !important;
+    position: relative;
+}
+
+.modal-title {
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em;
+}
+
+.modal-body {
+    padding: 1.5rem !important;
 }
 
 .text-dark-blue {
-    color: #143752;
+    color: var(--color-navy);
 }
 
-/* Container untuk List User */
+/* ===================== USER SELECTION LIST ===================== */
 .user-list-container {
-    max-height: 250px;
+    max-height: 260px;
     overflow-y: auto;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    background-color: #fff;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+}
+.user-list-container::-webkit-scrollbar { width: 5px; }
+.user-list-container::-webkit-scrollbar-track { background: transparent; }
+.user-list-container::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: 3px;
 }
 
-/* Item User dalam List */
 .user-select-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 15px;
-    border-bottom: 1px solid #f0f0f0;
+    padding: 11px 14px;
+    border-bottom: 1px solid #f0f4f8;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background-color 0.15s ease;
 }
+.user-select-item:last-child { border-bottom: none; }
+.user-select-item:hover { background-color: #f4f8fc; }
 
-.user-select-item:last-child {
-    border-bottom: none;
-}
-
-.user-select-item:hover {
-    background-color: #f8f9fa;
-}
-
-/* State ketika user dipilih */
 .user-select-item.selected {
-    background-color: #f0f7ff;
-    border-left: 4px solid #0d6efd;
+    background-color: var(--color-blue-soft);
+    border-left: 3px solid var(--color-navy-light);
 }
 
-/* Avatar Inisial (Lingkaran Hitam/Dark) */
 .user-avatar-dark {
-    width: 38px;
-    height: 38px;
-    background-color: #143752;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--color-navy) 0%, #1e5276 100%);
     color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-right: 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-right: 10px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(15, 45, 69, 0.2);
 }
 
-/* Tombol Kecil "+ Add Member" di sebelah kanan list */
 .btn-select-user {
-    background-color: #143752;
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
     color: white;
     border: none;
-    padding: 5px 15px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    transition: background 0.2s;
+    padding: 5px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
 }
-
 .btn-select-user:hover {
-    background-color: #0f2b3e;
+    background: linear-gradient(135deg, #1e5276 0%, var(--color-navy) 100%);
+    transform: translateY(-1px);
 }
 
-/* Jika row dipilih, tombol berubah jadi Selected (abu-abu/disabled look) */
 .user-select-item.selected .btn-select-user {
-    background-color: #198754; /* Hijau */
+    background: linear-gradient(135deg, #1a7a4a 0%, #198754 100%);
     pointer-events: none;
 }
 .user-select-item.selected .btn-select-user::after {
-    content: "ed"; /* Jadi 'Added' atau 'Selected' */
+    content: "ed";
+}
+
+/* Search input group */
+.input-group .form-control {
+    border-left: none !important;
+}
+.input-group .input-group-text {
+    border: 1.5px solid var(--color-border);
+    border-right: none;
+    background-color: #fafcff;
+    border-radius: var(--radius-md) 0 0 var(--radius-md) !important;
+    color: var(--color-text-muted);
+}
+.input-group .form-control:first-of-type {
+    border-radius: 0 !important;
+}
+.input-group .btn-primary {
+    border-radius: 0 var(--radius-md) var(--radius-md) 0 !important;
+    padding: 10px 18px;
+}
+
+/* ===================== ALERTS ===================== */
+.alert-danger {
+    background-color: #fff5f5;
+    border: 1px solid #ffc9c9;
+    border-radius: var(--radius-md) !important;
+    color: #c0392b;
+    font-size: 0.84rem;
+}
+
+.alert-light {
+    background-color: #f8fafc;
+    border: 1px solid var(--color-border) !important;
+    border-radius: var(--radius-md) !important;
+}
+.alert-light code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    letter-spacing: 0.04em;
+}
+
+/* ===================== RESPONSIVE — Tablet (≤ 1024px) ===================== */
+@media (max-width: 1024px) {
+    .main-content {
+        margin-left: 0;
+        padding: 1.25rem 1.25rem 4rem;
+    }
+    .page-header-wrap h4 {
+        font-size: 1.3rem;
+    }
+}
+
+/* ===================== RESPONSIVE — Mobile (≤ 768px) ===================== */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 0.75rem 0.75rem 5rem;
+    }
+
+    .page-header-wrap {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .page-header-wrap h4 {
+        font-size: 1.15rem;
+    }
+
+    .card {
+        border-radius: var(--radius-md) !important;
+    }
+
+    .avatar-circle {
+        width: 36px;
+        height: 36px;
+        font-size: 0.82rem;
+    }
+
+    .member-item {
+        padding: 10px 12px;
+    }
+
+    .btn-primary,
+    .btn-outline-danger {
+        font-size: 0.82rem;
+        padding: 9px 16px;
+    }
+
+    .modal-body {
+        padding: 1.25rem !important;
+    }
+}
+
+/* ===================== RESPONSIVE — Small Mobile (≤ 480px) ===================== */
+@media (max-width: 480px) {
+    .main-content {
+        padding: 0.5rem 0.5rem 6rem;
+    }
+
+    .page-header-wrap h4 {
+        font-size: 1rem;
+    }
+
+    .form-label {
+        font-size: 0.76rem;
+    }
+
+    .form-control,
+    .form-select {
+        font-size: 0.84rem;
+        padding: 9px 12px;
+    }
+
+    .avatar-circle {
+        width: 32px;
+        height: 32px;
+        font-size: 0.78rem;
+    }
+
+    .member-name {
+        font-size: 0.82rem;
+    }
+
+    .card-header-dark {
+        font-size: 0.8rem;
+    }
 }

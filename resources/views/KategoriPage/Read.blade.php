@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Master Kategori</title>
+    <title>Master Group</title>
 
     @vite([
         'resources/css/app.css', 
@@ -17,7 +17,7 @@
 </head>
 <body class="bg-light">
     @include('components.NavbarSearchFilter', [
-        'title' => 'Master Kategori',
+        'title' => 'Master Group',
         'showSearchFilter' => false,
         'userName' => auth()->user()->name ?? 'Guest',
         'userRole' => auth()->user()->role ?? 'No Role'
@@ -27,13 +27,13 @@
         {{-- Page Header --}}
         <div class="page-header d-flex justify-content-between align-items-center">
             <div>
-                <h4 class="fw-bold mb-1">Kelola Kategori Projek</h4>
-                <p class="mb-0 text-white-50 small">Organisir dan kelola kategori untuk proyek Anda</p>
+                <h4 class="fw-bold mb-1">Manage Project Groups</h4>
+                <p class="mb-0 text-white-50 small">Organize and manage groups for your projects</p>
             </div>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="/projek">Project</a></li>
-                    <li class="breadcrumb-item active">Master Kategori</li>
+                    <li class="breadcrumb-item active">Master Group</li>
                 </ol>
             </nav> 
         </div>
@@ -43,11 +43,11 @@
             <div class="kategori-card-header">
                 <h6>
                     <i class="bi bi-tags"></i>
-                    Daftar Kategori
+                    Group List
                 </h6>
                 <button class="btn btn-add-kategori text-white" data-bs-toggle="modal" data-bs-target="#modalAddKategori">
                     <i class="bi bi-plus-lg"></i>
-                    Tambah Kategori
+                    Add Group
                 </button>
             </div>
             <div class="card-body p-0">
@@ -56,10 +56,10 @@
                         <thead>
                             <tr>
                                 <th width="5%" class="text-center">NO</th>
-                                <th width="30%">NAMA KATEGORI</th>
-                                <th width="35%">DESKRIPSI</th>
+                                <th width="30%">GROUP NAME</th>
+                                <th width="35%">DESCRIPTION</th>
                                 <th width="15%" class="text-center">STATUS</th>
-                                <th width="15%" class="text-center">AKSI</th>
+                                <th width="15%" class="text-center">ACTION</th>
                             </tr>
                         </thead>
                         <tbody id="tableBodyKategori">
@@ -81,23 +81,23 @@
         <div class="modal-dialog modal-dialog-centered">
             <form id="formAddKategori" class="modal-content">
                 <div class="modal-header text-white">
-                    <h5 class="modal-title">Tambah Kategori Baru</h5>
+                    <h5 class="modal-title">Add New Group</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Nama Kategori <span class="text-danger">*</span></label>
-                        <input type="text" id="add_nama" class="form-control" placeholder="Contoh: IT Development" required>
+                        <label class="form-label">Group Name <span class="text-danger">*</span></label>
+                        <input type="text" id="add_nama" class="form-control" placeholder="Example: IT Development" required>
                     </div>
                     <div class="mb-0">
-                        <label class="form-label">Deskripsi <span class="text-muted fw-normal">(Opsional)</span></label>
-                        <textarea id="add_deskripsi" class="form-control" rows="3" placeholder="Jelaskan tentang kategori ini..."></textarea>
+                        <label class="form-label">Description <span class="text-muted fw-normal">(Optional)</span></label>
+                        <textarea id="add_deskripsi" class="form-control" rows="3" placeholder="Describe this group..."></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-check-lg me-1"></i>Simpan
+                        <i class="bi bi-check-lg me-1"></i>Save
                     </button>
                 </div>
             </form>
@@ -109,24 +109,24 @@
         <div class="modal-dialog modal-dialog-centered">
             <form id="formEditKategori" class="modal-content">
                 <div class="modal-header text-white">
-                    <h5 class="modal-title">Edit Kategori</h5>
+                    <h5 class="modal-title">Edit Group</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="edit_id">
                     <div class="mb-3">
-                        <label class="form-label">Nama Kategori <span class="text-danger">*</span></label>
+                        <label class="form-label">Group Name <span class="text-danger">*</span></label>
                         <input type="text" id="edit_nama" class="form-control" required>
                     </div>
                     <div class="mb-0">
-                        <label class="form-label">Deskripsi <span class="text-muted fw-normal">(Opsional)</span></label>
+                        <label class="form-label">Description <span class="text-muted fw-normal">(Optional)</span></label>
                         <textarea id="edit_deskripsi" class="form-control" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-check-lg me-1"></i>Simpan Perubahan
+                        <i class="bi bi-check-lg me-1"></i>Save Changes
                     </button>
                 </div>
             </form>

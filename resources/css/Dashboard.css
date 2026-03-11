@@ -1,123 +1,391 @@
-body {
-    font-family: "Poppins", sans-serif;
-    background-color: #f4f7f9;
-}
-.main-content {
-    margin-left: 125px;
-    padding: 2rem;
-    background-color: #f4f7f9;
+/* =========================================================
+   DASHBOARD.CSS — Project Dashboard Page
+   Konsisten dengan desain List, EditProjek, Jobs & Logbook
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap');
+
+:root {
+    --color-navy:        #0f2d45;
+    --color-navy-light:  #143752;
+    --color-navy-mid:    #1e5a8a;
+    --color-blue-soft:   #e8f3fc;
+    --color-accent:      #ff7d00;
+    --color-accent-glow: rgba(255, 125, 0, 0.2);
+    --color-border:      #dde3ea;
+    --color-bg:          #f4f7fb;
+    --color-surface:     #ffffff;
+    --color-text:        #1a2b3c;
+    --color-text-muted:  #5c7389;
+
+    --radius-sm:  6px;
+    --radius-md:  10px;
+    --radius-lg:  14px;
+
+    --shadow-sm:  0 1px 4px rgba(0,0,0,0.06);
+    --shadow-md:  0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg:  0 8px 32px rgba(0,0,0,0.12);
 }
 
-/* Header Section */
+/* ===================== BASE ===================== */
+body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+/* ===================== LAYOUT ===================== */
+.main-content {
+    margin-left: 125px;
+    padding: 2rem 2rem 3rem;
+    background-color: var(--color-bg);
+    min-height: 100vh;
+}
+
+/* ===================== PAGE HEADER ===================== */
+.page-header-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.breadcrumb {
+    font-size: 0.8rem;
+    margin-bottom: 0;
+}
+.breadcrumb-item a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-weight: 500;
+}
+.breadcrumb-item a:hover { color: var(--color-navy); }
+.breadcrumb-item.active { color: var(--color-navy); font-weight: 600; }
+.breadcrumb-item + .breadcrumb-item::before { color: #b0bec9; }
+
+/* ===================== BACK BUTTON ===================== */
+.btn-back-custom {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background-color: var(--color-surface);
+    color: var(--color-navy);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 8px 16px;
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: 0.01em;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+.btn-back-custom:hover {
+    background-color: var(--color-navy);
+    color: white;
+    border-color: var(--color-navy);
+    transform: translateX(-2px);
+    box-shadow: var(--shadow-sm);
+}
+.btn-back-custom i {
+    transition: transform 0.2s ease;
+}
+.btn-back-custom:hover i {
+    transform: translateX(-2px);
+}
+
+/* ===================== MAIN CARD ===================== */
+.dashboard-card {
+    border-radius: var(--radius-lg) !important;
+    border: 1px solid var(--color-border) !important;
+    box-shadow: var(--shadow-md) !important;
+    background-color: var(--color-surface);
+    overflow: hidden;
+}
+
 .page-header h2 {
-    font-weight: 700;
-    color: #0f3d6e;
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--color-navy);
+    letter-spacing: -0.02em;
+    margin-bottom: 2px;
 }
-.btn-back {
-    background-color: #5f6d7a;
-    color: white;
-    border-radius: 6px;
+.page-header .subtitle {
+    font-size: 0.84rem;
+    color: var(--color-text-muted);
+    font-weight: 400;
 }
-.btn-back:hover {
-    background-color: #4a5661;
-    color: white;
+
+hr {
+    border-color: var(--color-border);
+    opacity: 1;
+}
+
+/* ===================== BREAKDOWN TABLE ===================== */
+.table-responsive {
+    border-radius: var(--radius-md) !important;
+    border: 1px solid var(--color-border) !important;
+    overflow: hidden;
+}
+.table-responsive::-webkit-scrollbar { height: 5px; }
+.table-responsive::-webkit-scrollbar-track { background: transparent; }
+.table-responsive::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: 3px;
+}
+
+.custom-table {
+    margin-bottom: 0;
+    font-size: 0.84rem;
 }
 
 .custom-table thead {
-    background-color: #1a4268;
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
     color: white;
+    position: relative;
 }
+/* Accent bar oranye kiri pada thead */
+.custom-table thead::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--color-accent);
+    z-index: 1;
+}
+
 .custom-table th {
-    padding: 12px 15px;
-    font-weight: 500;
-    font-size: 0.9rem;
-    border: none;
+    padding: 12px 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: none !important;
+    white-space: nowrap;
+    color: rgba(255,255,255,0.9);
 }
+
 .custom-table td {
-    padding: 12px 15px;
+    padding: 10px 14px;
     vertical-align: middle;
-    font-size: 0.9rem;
-    color: #444;
-    border-bottom: 1px solid #eee;
+    font-size: 0.84rem;
+    color: var(--color-text);
+    border-bottom: 1px solid #f0f4f8;
 }
-.custom-table tbody tr:nth-child(even) {
-    background-color: #f8fbff;
+.custom-table tbody tr:last-child td { border-bottom: none; }
+
+.custom-table tbody tr {
+    transition: background-color 0.12s ease;
+}
+.custom-table tbody tr:hover {
+    background-color: #f0f6ff;
 }
 
-/* Modul Header Row */
+/* Module Row — konsisten dengan List & Jobs */
 .modul-row td {
-    background-color: #0f3d6e !important;
+    background: linear-gradient(90deg, var(--color-navy) 0%, var(--color-navy-light) 100%) !important;
     color: white !important;
-    font-weight: 600;
+    font-weight: 700 !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    position: relative;
+}
+.modul-row td:first-child {
+    padding-left: 1.25rem !important;
+}
+.modul-row td:first-child::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--color-accent);
 }
 
-/* Team Card */
-.team-card {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+/* Activity letter counter */
+.custom-table td.text-muted {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.76rem;
+    color: var(--color-text-muted) !important;
+    font-weight: 700;
 }
-.team-header {
-    background-color: #1a4268;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 8px 8px 0 0;
+
+/* Progress bar cell */
+.custom-table .progress {
+    border-radius: 3px;
+    background-color: #e9ecef;
+    flex: 1;
+    min-width: 50px;
+}
+.custom-table .progress-bar {
+    background: linear-gradient(90deg, #1a7a4a 0%, #2ecc71 100%);
+    border-radius: 3px;
+}
+.custom-table .progress-text {
+    font-size: 0.76rem;
     font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
 }
+
+/* Contribution cell */
+.custom-table td .fw-bold.text-success {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: #1a7a4a !important;
+    font-weight: 700 !important;
+}
+
+/* ===================== TOTAL PROGRESS BAR ===================== */
+.total-progress-wrap {
+    margin-top: 0.75rem;
+    padding: 14px 18px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, #f0f6ff 0%, var(--color-blue-soft) 100%);
+    border: 1px solid #c5ddf5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.total-progress-wrap .label {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--color-navy);
+}
+.total-progress-wrap .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-navy-mid);
+    letter-spacing: 0.02em;
+}
+
+/* ===================== TEAM CARD ===================== */
+.team-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg) !important;
+    border: 1px solid var(--color-border) !important;
+    box-shadow: var(--shadow-sm) !important;
+    overflow: hidden;
+}
+
+.team-header {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
+    color: white;
+    padding: 12px 16px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    position: relative;
+}
+.team-header::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--color-accent);
+}
+
+.team-body {
+    max-height: 420px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+}
+.team-body::-webkit-scrollbar { width: 4px; }
+.team-body::-webkit-scrollbar-track { background: transparent; }
+.team-body::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: 2px;
+}
+
 .member-item {
-    padding: 10px 15px;
-    border-bottom: 1px solid #f0f0f0;
+    padding: 11px 16px;
+    border-bottom: 1px solid #f0f4f8;
     display: flex;
     align-items: center;
     gap: 10px;
+    transition: background-color 0.12s ease;
 }
+.member-item:last-child { border-bottom: none; }
+.member-item:hover { background-color: #f4f8fc; }
+
 .avatar-circle {
-    width: 35px;
-    height: 35px;
-    background-color: #1a4268;
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-mid) 100%);
     color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
-    font-weight: bold;
+    font-size: 0.78rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(15, 45, 69, 0.2);
+}
+.avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.custom-table td {
-    vertical-align: middle;
+.member-name {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.2;
+}
+.member-role {
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+    margin-top: 1px;
 }
 
-.modul-row {
-    color: #f8f9fa;
-    /* background-color: #022245; */
+/* ===================== RESPONSIVE — Tablet (≤ 1024px) ===================== */
+@media (max-width: 1024px) {
+    .main-content {
+        margin-left: 0;
+        padding: 1.25rem 1.25rem 4rem;
+    }
+    .page-header h2 { font-size: 1.25rem; }
 }
 
-.text-muted.small {
-    font-size: 0.85rem;
-    font-weight: 500;
+/* ===================== RESPONSIVE — Mobile (≤ 768px) ===================== */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 0.75rem 0.75rem 5rem;
+    }
+    .page-header h2 { font-size: 1.1rem; }
+    .custom-table th,
+    .custom-table td { padding: 9px 10px; font-size: 0.78rem; }
+    .custom-table th { font-size: 0.65rem; }
+    .total-progress-wrap { padding: 11px 14px; }
+    .total-progress-wrap .value { font-size: 1rem; }
 }
 
-.btn-back-custom {
-    background-color: #ffffff;
-    color: #143752;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-weight: 500;
-    font-size: 0.85rem;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
+/* ===================== RESPONSIVE — Small Mobile (≤ 480px) ===================== */
+@media (max-width: 480px) {
+    .main-content { padding: 0.5rem 0.5rem 6rem; }
 
-.btn-back-custom:hover {
-    background-color: #143752;
-    color: #ffffff;
-    border-color: #143752;
-}
+    /* Sembunyikan kolom Weight Portion dan Project Contribution di layar kecil */
+    .custom-table th:nth-child(5),
+    .custom-table td:nth-child(5) { display: none; }
 
-.btn-back-custom i {
-    transition: transform 0.3s ease;
+    .custom-table th,
+    .custom-table td { font-size: 0.72rem; padding: 8px 7px; }
+    .page-header h2 { font-size: 1rem; }
+    .btn-back-custom { font-size: 0.76rem; padding: 6px 12px; }
 }

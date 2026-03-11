@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login - Logbook Management</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     @vite(['resources/css/login.css', 'resources/js/Auth/login.js', 'resources/js/app.js'])
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
 
     <div class="main-card">
+
+        {{-- ════════════ LEFT: Form ════════════ --}}
         <div class="left-panel">
-            
+
             <div class="header-section">
                 <div class="brand-logo">
-                    <img class="logo-placeholder" src="{{ asset('images/LogoBiruOnly.png') }}" alt="Logo">
-                   
+                    <img class="logo-placeholder"
+                         src="{{ asset('images/LogoBiruOnly.png') }}"
+                         alt="Logbook Management Logo">
                     <div>
                         <h1 class="brand-title">LOGBOOK MANAGEMENT</h1>
                         <p class="brand-subtitle">Project Monitoring and Management</p>
@@ -27,39 +30,64 @@
             </div>
 
             <form id="loginForm">
-                <div id="errorMsg" class="alert-error" style="display:none"></div>
 
+                <div id="errorMsg" class="alert-error" style="display:none;">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <span id="errorText"></span>
+                </div>
+
+                {{-- Username / Email --}}
                 <div class="form-group">
                     <div class="input-wrapper">
-                        <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                        <input type="text" id="usr_email" class="form-input" placeholder="Username or Email" required>
+                        <span class="input-icon">
+                            <i class="bi bi-person"></i>
+                        </span>
+                        <input type="text"
+                               id="usr_email"
+                               class="form-input"
+                               placeholder="Username or Email"
+                               autocomplete="username"
+                               required>
                     </div>
                 </div>
 
+                {{-- Password --}}
                 <div class="form-group">
                     <div class="input-wrapper">
-                        <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                        </svg>
-                        <input type="password" id="password" class="form-input" placeholder="Password" required>
+                        <span class="input-icon">
+                            <i class="bi bi-lock"></i>
+                        </span>
+                        <input type="password"
+                               id="password"
+                               class="form-input"
+                               placeholder="Password"
+                               autocomplete="current-password"
+                               required>
                     </div>
                 </div>
-                
-                <button type="button" id="loginBtn" class="btn-login">Log In</button>
-                <a href="/signup" class="btn-signup">Sign Up</a>
+
+                <button type="button" id="loginBtn" class="btn-login">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    Log In
+                </button>
+
+                <a href="/signup" class="btn-signup">
+                    <i class="bi bi-person-plus me-1"></i>
+                    Create an Account
+                </a>
+
             </form>
-
         </div>
 
+        {{-- ════════════ RIGHT: Illustration ════════════ --}}
         <div class="right-panel">
             <div class="illustration-container">
-                <img class="illustration-img" src="{{ asset('images/IlustrationLogin.png') }}" alt="">
+                <img class="illustration-img"
+                     src="{{ asset('images/IlustrationLogin.png') }}"
+                     alt="Login Illustration">
             </div>
         </div>
+
     </div>
 
 </body>

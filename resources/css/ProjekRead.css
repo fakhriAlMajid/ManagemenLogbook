@@ -1,4 +1,416 @@
-.main-content{
-    padding-left: 2rem;
-    padding-right: 2rem;
+/* =========================================================
+   PROJEKREAD.CSS — Project List Page
+   Konsisten dengan desain List, EditProjek, Jobs & Logbook
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap');
+
+:root {
+    --color-navy:        #0f2d45;
+    --color-navy-light:  #143752;
+    --color-navy-mid:    #1e5a8a;
+    --color-blue-soft:   #e8f3fc;
+    --color-accent:      #ff7d00;
+    --color-accent-glow: rgba(255, 125, 0, 0.2);
+    --color-border:      #dde3ea;
+    --color-bg:          #f4f7fb;
+    --color-surface:     #ffffff;
+    --color-text:        #1a2b3c;
+    --color-text-muted:  #5c7389;
+
+    --radius-sm:  6px;
+    --radius-md:  10px;
+    --radius-lg:  14px;
+
+    --shadow-sm:  0 1px 4px rgba(0,0,0,0.06);
+    --shadow-md:  0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg:  0 8px 32px rgba(0,0,0,0.12);
+}
+
+/* ===================== BASE ===================== */
+body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+/* ===================== LAYOUT ===================== */
+.main-content {
+    padding: 2rem 2rem 3rem;
+    background-color: var(--color-bg);
+    min-height: 100vh;
+}
+
+/* ===================== PAGE HEADER ===================== */
+.main-content h1.h4 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-navy);
+    letter-spacing: -0.02em;
+}
+
+/* ===================== HEADER BUTTONS ===================== */
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-navy-light) 0%, #1e5276 100%);
+    border: none;
+    border-radius: var(--radius-md) !important;
+    font-weight: 700;
+    font-size: 0.84rem;
+    letter-spacing: 0.02em;
+    padding: 9px 18px;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(15, 45, 69, 0.25);
+    background: linear-gradient(135deg, #1e5276 0%, var(--color-navy-light) 100%);
+}
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-outline-secondary {
+    border-radius: var(--radius-md) !important;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    border-color: var(--color-border);
+    transition: all 0.15s ease;
+}
+.btn-outline-secondary:hover {
+    background-color: var(--color-blue-soft);
+    border-color: #5ba4d4;
+    color: var(--color-navy);
+    transform: translateY(-1px);
+}
+
+/* ===================== PROJECT CARDS ===================== */
+.projek-card {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+.projek-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: #b0cce6;
+}
+.projek-card:active { transform: scale(0.99); }
+
+/* Accent bar top */
+.projek-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-navy) 0%, var(--color-navy-mid) 100%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.projek-card:hover::before { opacity: 1; }
+
+.projek-card .card-body {
+    padding: 1.25rem;
+}
+
+/* Card header area */
+.projek-card .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+    gap: 8px;
+}
+
+.projek-card .project-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+
+/* Status badge */
+.projek-card .status-badge {
+    flex-shrink: 0;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.status-inprogress {
+    background-color: #dbeafe;
+    color: #1d4ed8;
+}
+.status-completed {
+    background: linear-gradient(135deg, #1a7a4a 0%, #198754 100%);
+    color: white;
+}
+.status-pending {
+    background-color: #fff3cd;
+    color: #92400e;
+}
+.status-onhold {
+    background-color: #f3f4f6;
+    color: #6b7280;
+}
+
+/* Meta info (PIC, category, dates) */
+.projek-card .card-meta {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.75rem;
+}
+.projek-card .card-meta .meta-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 3px;
+}
+.projek-card .card-meta .meta-row i {
+    font-size: 0.72rem;
+    width: 14px;
+    flex-shrink: 0;
+    color: #8bafc8;
+}
+
+/* Description */
+.projek-card .card-desc {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+/* Progress bar */
+.projek-card .progress {
+    height: 6px;
+    border-radius: 3px;
+    background-color: #e9ecef;
+    margin-bottom: 4px;
+    overflow: hidden;
+}
+.projek-card .progress-bar {
+    background: linear-gradient(90deg, var(--color-navy-light) 0%, var(--color-navy-mid) 100%);
+    border-radius: 3px;
+    transition: width 0.6s ease;
+}
+.projek-card .progress-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
+}
+
+/* Card footer */
+.projek-card .card-foot {
+    border-top: 1px solid #f0f4f8;
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+.projek-card .card-foot .date-range {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.projek-card .card-foot i {
+    font-size: 0.72rem;
+    color: #8bafc8;
+}
+
+/* ===================== EMPTY STATE ===================== */
+#projekContainer .empty-state {
+    padding: 4rem 1rem;
+    text-align: center;
+}
+#projekContainer .empty-state i {
+    font-size: 3.5rem;
+    color: #c8d8e8;
+    display: block;
+    margin-bottom: 1rem;
+}
+#projekContainer .empty-state h5 {
+    font-weight: 800;
+    color: var(--color-navy);
+    font-size: 1.1rem;
+}
+#projekContainer .empty-state p {
+    color: var(--color-text-muted);
+    font-size: 0.86rem;
+    max-width: 320px;
+    margin: 0 auto 1.25rem;
+}
+
+/* ===================== MODAL ===================== */
+.modal-content {
+    border-radius: var(--radius-lg) !important;
+    border: none !important;
+    box-shadow: var(--shadow-lg) !important;
+    overflow: hidden;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
+    border-bottom: none !important;
+    padding: 16px 20px !important;
+    position: relative;
+}
+.modal-header::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--color-accent);
+}
+.modal-header .modal-title {
+    color: white;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em;
+}
+.modal-header .btn-close {
+    filter: invert(1) brightness(2);
+    opacity: 0.8;
+}
+.modal-header .btn-close:hover { opacity: 1; }
+
+.modal-body {
+    padding: 1.5rem !important;
+    background-color: var(--color-surface);
+}
+.modal-footer {
+    border-top: 1px solid var(--color-border) !important;
+    padding: 1rem 1.5rem !important;
+    background-color: #fafcff;
+    border-top-color: var(--color-border) !important;
+}
+
+/* ===================== FORM ELEMENTS ===================== */
+.form-label {
+    font-weight: 700 !important;
+    font-size: 0.78rem !important;
+    color: var(--color-navy) !important;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+.form-label .text-danger { color: var(--color-accent) !important; }
+
+.form-control,
+.form-select,
+.form-control.bg-light {
+    border: 1.5px solid var(--color-border) !important;
+    border-radius: var(--radius-md) !important;
+    font-size: 0.87rem !important;
+    color: var(--color-text) !important;
+    background-color: #fafcff !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    padding: 10px 14px !important;
+}
+.form-control:focus,
+.form-select:focus,
+.form-control.bg-light:focus {
+    border-color: #5ba4d4 !important;
+    box-shadow: 0 0 0 3px rgba(91, 164, 212, 0.18) !important;
+    background-color: var(--color-surface) !important;
+    outline: none;
+}
+
+/* ===================== MODAL FOOTER BUTTONS ===================== */
+.modal-footer .btn-outline-secondary {
+    background-color: #eef2f7;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    border-radius: var(--radius-md) !important;
+    font-weight: 600;
+    font-size: 0.84rem;
+    transition: all 0.15s ease;
+}
+.modal-footer .btn-outline-secondary:hover {
+    background-color: #dde3ea;
+    color: var(--color-navy);
+    border-color: var(--color-border);
+}
+
+/* ===================== ALERT IN MODAL ===================== */
+#modalAlert .alert {
+    border-radius: var(--radius-sm) !important;
+    font-size: 0.82rem;
+    padding: 10px 14px;
+    border: none !important;
+}
+#modalAlert .alert-danger {
+    background-color: #fff5f5;
+    color: #c0392b;
+    border-left: 3px solid #e74c3c !important;
+}
+#modalAlert .alert-success {
+    background-color: #eafaf1;
+    color: #1a6b3a;
+    border-left: 3px solid #2ecc71 !important;
+}
+
+/* ===================== LOADING SPINNER ===================== */
+#projekContainer .spinner-border {
+    color: var(--color-navy-light) !important;
+    width: 2rem;
+    height: 2rem;
+}
+
+#errorMsg {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: #c0392b;
+}
+
+/* ===================== RESPONSIVE — Tablet (≤ 1024px) ===================== */
+@media (max-width: 1024px) {
+    .main-content {
+        padding: 1.25rem 1.25rem 4rem;
+    }
+    .main-content h1.h4 { font-size: 1.25rem; }
+}
+
+/* ===================== RESPONSIVE — Mobile (≤ 768px) ===================== */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 0.75rem 0.75rem 5rem;
+    }
+    .main-content h1.h4 { font-size: 1.1rem; }
+    .projek-card .card-body { padding: 1rem; }
+    .modal-body { padding: 1.25rem !important; }
+    .modal-footer { padding: 0.85rem 1.25rem !important; }
+}
+
+/* ===================== RESPONSIVE — Small Mobile (≤ 480px) ===================== */
+@media (max-width: 480px) {
+    .main-content {
+        padding: 0.5rem 0.5rem 6rem;
+    }
+    .projek-card .project-name { font-size: 0.88rem; }
+    .projek-card .card-meta { font-size: 0.74rem; }
+    .main-content h1.h4 { font-size: 1rem; }
+    .btn-primary,
+    .btn-outline-secondary { font-size: 0.78rem; padding: 7px 12px; }
 }

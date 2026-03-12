@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let currentUserRole = null;
     let userAccountRole = null;
+    let originalTglMulai = null;
+    let originalTglSelesai = null;
 
     // Load categories
     const loadCategories = async () => {
@@ -36,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Add categories to select
                 categories.forEach((cat) => {
-                    // Perbaikan: gunakan loose equality agar false / "0" / 0 tetap tertangkap
                     if (cat.ktg_is_active == 0 || cat.ktg_is_active === false)
                         return;
 
@@ -56,16 +57,8 @@ document.addEventListener("DOMContentLoaded", function () {
     loadCategories();
 
     function initializeDateValidation() {
-        const today = new Date();
-        const todayString = today.toISOString().split("T")[0];
-
-        if (tglMulaiInput) {
-            tglMulaiInput.setAttribute("min", todayString);
-        }
-
-        if (tglSelesaiInput) {
-            tglSelesaiInput.setAttribute("min", todayString);
-        }
+        if (tglMulaiInput) tglMulaiInput.removeAttribute("min");
+        if (tglSelesaiInput) tglSelesaiInput.removeAttribute("min");
     }
 
     if (tglMulaiInput) {
@@ -115,14 +108,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("pjk_tgl_selesai").value =
                     data.tanggal_selesai;
 
+                originalTglMulai = data.tanggal_mulai;
+                originalTglSelesai = data.tanggal_selesai;
+
                 initializeDateValidation();
 
-                // Set confirmation text untuk delete modal
                 const confirmText = `Delete project ${data.nama}`;
                 document.getElementById("confirmationText").textContent =
                     confirmText;
 
-                // Load current user's role in this project
                 loadCurrentUserRole();
             })
             .catch(() =>
@@ -136,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function () {
             .then((res) => {
                 const members = res.data;
 
-                // Get current user ID from localStorage
                 const userData = JSON.parse(
                     localStorage.getItem("user_data") || "{}",
                 );
@@ -151,7 +144,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     currentUserRole = currentMember.role;
                 }
 
-                // Show/Hide buttons based on role
                 const btnAddTeamMember =
                     document.getElementById("btnAddTeamMember");
                 const btnHapusProjek =
@@ -170,7 +162,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (btnHapusProjek) btnHapusProjek.style.display = "none";
                 }
 
-                // Load members after getting user role
                 loadMembers();
             })
             .catch(() => {
@@ -179,7 +170,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    // PERBAIKAN: Fungsi ini harus dipanggil agar datanya muncul saat halaman dibuka
     loadProjectData();
 
     const form = document.getElementById("formEditProjek");
@@ -195,44 +185,57 @@ document.addEventListener("DOMContentLoaded", function () {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
-            // Validate tgl_mulai
-            if (!tglMulaiValue) {
-                Swal.fire(
-                    "Validation Error",
-                    "Tanggal mulai harus diisi!",
-                    "warning",
-                );
-                return;
+            const tglMulaiChanged = tglMulaiValue !== originalTglMulai;
+            const tglSelesaiChanged = tglSelesaiValue !== originalTglSelesai;
+
+            // Only validate start date if it was changed
+            if (tglMulaiChanged) {
+                if (!tglMulaiValue) {
+                    Swal.fire(
+                        "Validation Error",
+                        "Tanggal mulai harus diisi!",
+                        "warning",
+                    );
+                    return;
+                }
+
+                const mulaiDate = new Date(tglMulaiValue);
+                if (mulaiDate < today) {
+                    Swal.fire(
+                        "Validation Error",
+                        "Tanggal mulai tidak boleh kurang dari hari ini!",
+                        "warning",
+                    );
+                    return;
+                }
             }
 
-            const mulaiDate = new Date(tglMulaiValue);
-            if (mulaiDate < today) {
-                Swal.fire(
-                    "Validation Error",
-                    "Tanggal mulai tidak boleh kurang dari hari ini!",
-                    "warning",
-                );
-                return;
-            }
+            // Only validate end date if it was changed
+            if (tglSelesaiChanged) {
+                if (!tglSelesaiValue) {
+                    Swal.fire(
+                        "Validation Error",
+                        "Tanggal selesai harus diisi!",
+                        "warning",
+                    );
+                    return;
+                }
 
-            // Validate tgl_selesai
-            if (!tglSelesaiValue) {
-                Swal.fire(
-                    "Validation Error",
-                    "Tanggal selesai harus diisi!",
-                    "warning",
-                );
-                return;
-            }
+                // Use effective start date: new value if changed, otherwise original
+                const effectiveMulai = tglMulaiChanged
+                    ? tglMulaiValue
+                    : originalTglMulai;
+                const selesaiDate = new Date(tglSelesaiValue);
+                const mulaiDate = new Date(effectiveMulai);
 
-            const selesaiDate = new Date(tglSelesaiValue);
-            if (selesaiDate <= mulaiDate) {
-                Swal.fire(
-                    "Validation Error",
-                    "Tanggal selesai harus lebih besar dari tanggal mulai!",
-                    "warning",
-                );
-                return;
+                if (selesaiDate <= mulaiDate) {
+                    Swal.fire(
+                        "Validation Error",
+                        "Tanggal selesai harus lebih besar dari tanggal mulai!",
+                        "warning",
+                    );
+                    return;
+                }
             }
 
             const payload = {
@@ -276,14 +279,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnConfirmDelete = document.getElementById("btnConfirmDelete");
     const deleteConfirmModal = document.getElementById("deleteConfirmModal");
 
-    // Event listener untuk input teks konfirmasi
     if (deleteConfirmInput) {
         deleteConfirmInput.addEventListener("input", function () {
             const confirmText =
                 document.getElementById("confirmationText").textContent;
             const inputValue = this.value;
 
-            // Enable button hanya jika text match persis
             if (inputValue === confirmText) {
                 btnConfirmDelete.disabled = false;
             } else {
@@ -292,14 +293,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Event listener untuk button confirm delete
     if (btnConfirmDelete) {
         btnConfirmDelete.addEventListener("click", function () {
             const confirmText =
                 document.getElementById("confirmationText").textContent;
             const inputValue = deleteConfirmInput.value;
 
-            // Double-check validation
             if (inputValue !== confirmText) {
                 Swal.fire(
                     "Error",
@@ -309,7 +308,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // Disable button dan ubah text menjadi loading
             btnConfirmDelete.disabled = true;
             const originalText = btnConfirmDelete.innerHTML;
             btnConfirmDelete.innerHTML =
@@ -343,7 +341,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Reset modal saat dibuka
     if (deleteConfirmModal) {
         deleteConfirmModal.addEventListener("show.bs.modal", function () {
             deleteConfirmInput.value = "";
@@ -385,7 +382,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         initials += nameParts[1].charAt(0);
                     initials = initials.toUpperCase();
 
-                    // Only show remove button if user is Ketua
                     const removeButton =
                         currentUserRole === "Ketua" ||
                         userAccountRole === "Admin"
@@ -477,7 +473,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
 
-    // Handle Submit Form Edit Member
     const formEditMember = document.getElementById("formEditMember");
     if (formEditMember) {
         formEditMember.addEventListener("submit", function (e) {
@@ -526,7 +521,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnSearchTrigger = document.getElementById("btnSearchTrigger");
     const btnAddTeamMember = document.getElementById("btnAddTeamMember");
 
-    // Handle Add Team Member button click
     if (btnAddTeamMember) {
         btnAddTeamMember.addEventListener("click", function (e) {
             e.preventDefault();

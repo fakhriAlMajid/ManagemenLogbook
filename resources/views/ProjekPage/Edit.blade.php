@@ -74,12 +74,12 @@
                             </div>
 
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label class="form-label">Project PIC <span class="text-muted fw-normal text-lowercase">(External)</span></label>
                                     <input type="text" id="pjk_pic" class="form-control" required
                                            placeholder="Full name of PIC">
                                 </div>
-                                <div class="col-md-6">
+                                <div class="d-none">
                                     <label class="form-label">Project Status</label>
                                     <select id="pjk_status" class="form-select">
                                         <option value="Pending">Pending</option>

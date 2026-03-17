@@ -144,6 +144,18 @@ class TugasController extends Controller
                 Auth::user()->usr_username
             ]);
 
+            // Pastikan nilai progress project segera ter-update (jika trigger DB tidak jalan)
+            $project = DB::table('modul')
+                ->join('kegiatan', 'modul.mdl_id', '=', 'kegiatan.mdl_id')
+                ->join('tugas', 'kegiatan.kgt_id', '=', 'tugas.kgt_id')
+                ->where('tugas.tgs_id', $id)
+                ->select('modul.pjk_id')
+                ->first();
+
+            if ($project && $project->pjk_id) {
+                DB::select('CALL sp_kalkulasi_progress_projek(?)', [$project->pjk_id]);
+            }
+
             return response()->json(['message' => 'Tugas updated successfully']);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);

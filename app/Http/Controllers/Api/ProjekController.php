@@ -17,7 +17,7 @@ class ProjekController extends Controller
         security: [["bearerAuth" => []]],
         parameters: [
             new OA\Parameter(name: "search", in: "query", required: false, schema: new OA\Schema(type: "string"), description: "Cari nama projek"),
-            new OA\Parameter(name: "status", in: "query", required: false, schema: new OA\Schema(type: "string", enum: ["InProgress", "Completed", "OnHold"]), description: "Filter status"),
+            new OA\Parameter(name: "status", in: "query", required: false, schema: new OA\Schema(type: "string", enum: ["In Progress", "Completed", "On Hold"]), description: "Filter status"),
             new OA\Parameter(name: "kategori_id", in: "query", required: false, schema: new OA\Schema(type: "integer"), description: "Filter berdasarkan kategori")
         ],
         responses: [new OA\Response(response: 200, description: "List of projects", content: new OA\JsonContent(type: "array", items: new OA\Items(type: "object")))]
@@ -28,10 +28,25 @@ class ProjekController extends Controller
         $userId = $user->usr_id;
         $userRole = $user->usr_role;
 
+        // Normalisasi status filter (mendukung "InProgress" dan "In Progress")
+        $status = $request->status;
+        if (is_string($status) && trim($status) !== '') {
+            $raw = trim($status);
+            $normalized = strtolower(str_replace(' ', '', $raw));
+
+            if ($normalized === 'inprogress') {
+                $status = 'In Progress';
+            } elseif ($normalized === 'onhold') {
+                $status = 'On Hold';
+            } elseif ($normalized === 'completed' || $normalized === 'selesai') {
+                $status = 'Completed';
+            }
+        }
+
         if ($userRole === 'Admin') {
             $projek = DB::select('CALL sp_read_projek(NULL, ?, ?)', [
                 $request->search,
-                $request->status
+                $status
             ]);
         } else {
             $query = "

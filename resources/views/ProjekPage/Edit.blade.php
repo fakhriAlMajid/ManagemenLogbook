@@ -83,7 +83,7 @@
                                     <label class="form-label">Project Status</label>
                                     <select id="pjk_status" class="form-select">
                                         <option value="Pending">Pending</option>
-                                        <option value="InProgress">In Progress</option>
+                                        <option value="In Progress">In Progress</option>
                                         <option value="Completed">Completed</option>
                                         <option value="OnHold">On Hold</option>
                                     </select>

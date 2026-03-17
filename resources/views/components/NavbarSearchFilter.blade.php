@@ -102,7 +102,7 @@
                     <div class="dropdown-item active" data-value="">
                         <i class="bi bi-grid-3x3-gap"></i> All Projects
                     </div>
-                    <div class="dropdown-item" data-value="InProgress">
+                    <div class="dropdown-item" data-value="In Progress">
                         <i class="bi bi-arrow-repeat"></i> In Progress
                     </div>
                     <div class="dropdown-item" data-value="Completed">

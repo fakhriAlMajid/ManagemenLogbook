@@ -162,7 +162,7 @@
                                             {{ $tgs->tgs_bobot }}
                                         </td>
                                         <td class="text-center">
-                                            <span class="{{ $tgs->tgs_status == 'Selesai' ? 'badge bg-success' : 'badge bg-secondary' }}">
+                                            <span class="{{ $tgs->tgs_status == 'Completed' ? 'badge bg-success' : 'badge bg-secondary' }}">
                                                 {{ number_format($tgs->tgs_persentase_progress ?? $tgs->tgs_persentasi_progress, 0) }}%
                                                 {{ $tgs->tgs_status }}
                                             </span>

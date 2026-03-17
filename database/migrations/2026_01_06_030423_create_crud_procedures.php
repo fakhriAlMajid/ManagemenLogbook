@@ -78,7 +78,7 @@ return new class extends Migration
                 )
                 VALUES (
                     p_nama, p_pjk_pic, p_deskripsi, p_tgl_mulai, 
-                    p_tgl_selesai, "InProgress", 0, NOW(), p_creator_username
+                    p_tgl_selesai, "In Progress", 0, NOW(), p_creator_username
                 );
                 
                 SET new_pjk_id = LAST_INSERT_ID();
@@ -100,16 +100,49 @@ return new class extends Migration
                 IN p_status VARCHAR(20)
             )
             BEGIN
-                SELECT * FROM projek
+
+                -- Hitung progress dan update status project
+                UPDATE projek p
+                JOIN (
+                    SELECT 
+                        p.pjk_id,
+                        COUNT(t.tgs_id) AS total_tasks,
+                        SUM(
+                            CASE 
+                                WHEN t.tgs_status = "Completed"
+                                OR t.tgs_persentasi_progress = 100
+                                THEN 1
+                                ELSE 0
+                            END
+                        ) AS completed_tasks
+                    FROM projek p
+                    LEFT JOIN modul m ON p.pjk_id = m.pjk_id
+                    LEFT JOIN kegiatan k ON m.mdl_id = k.mdl_id
+                    LEFT JOIN tugas t ON k.kgt_id = t.kgt_id
+                    GROUP BY p.pjk_id
+                ) progress_data
+                ON p.pjk_id = progress_data.pjk_id
+                SET p.pjk_status =
+                    CASE
+                        WHEN progress_data.total_tasks > 0 
+                            AND progress_data.total_tasks = progress_data.completed_tasks
+                        THEN "Completed"
+                        ELSE "In Progress"
+                    END;
+
+                -- Ambil data project
+                SELECT *
+                FROM projek
                 WHERE 
                     (p_pjk_id IS NULL OR pjk_id = p_pjk_id)
                     AND (p_status IS NULL OR pjk_status = p_status COLLATE utf8mb4_unicode_ci)
                     AND (p_search IS NULL OR (
                         pjk_nama LIKE CONCAT("%", p_search, "%") COLLATE utf8mb4_unicode_ci OR
-                        pjk_pic LIKE CONCAT("%", p_search, "%") COLLATE utf8mb4_unicode_ci -- Search by PIC
+                        pjk_pic LIKE CONCAT("%", p_search, "%") COLLATE utf8mb4_unicode_ci
                     ))
                 ORDER BY pjk_create_at DESC;
-            END
+
+            END;
         ');
 
         // UPDATE PROJEK 

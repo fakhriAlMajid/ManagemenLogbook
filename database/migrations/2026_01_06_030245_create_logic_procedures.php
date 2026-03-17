@@ -39,7 +39,7 @@ return new class extends Migration
             END
         ');
 
-        // 2. TRIGGER: Auto-Status "Selesai" jika 100% (Before Update)
+        // 2. TRIGGER: Auto-Status "Completed" jika 100% (Before Update)
         DB::unprepared('
             DROP TRIGGER IF EXISTS trg_update_status_tugas;
             
@@ -47,13 +47,13 @@ return new class extends Migration
             BEFORE UPDATE ON tugas
             FOR EACH ROW
             BEGIN
-                -- Jika user isi 100%, status jadi Selesai
+                -- Jika user isi 100%, status jadi Completed
                 IF NEW.tgs_persentasi_progress = 100 THEN
-                    SET NEW.tgs_status = "Selesai";
+                    SET NEW.tgs_status = "Completed";
                 END IF;
                 
-                -- Jika user set status Selesai, progress jadi 100%
-                IF NEW.tgs_status = "Selesai" AND OLD.tgs_status != "Selesai" THEN
+                -- Jika user set status Completed, progress jadi 100%
+                IF NEW.tgs_status = "Completed" AND OLD.tgs_status != "Completed" THEN
                     SET NEW.tgs_persentasi_progress = 100;
                 END IF;
             END
@@ -101,7 +101,7 @@ return new class extends Migration
                     p.pjk_tanggal_selesai,
                     p.pjk_persentasi_progress as project_progress,
                     COUNT(t.tgs_id) as total_tasks,
-                    SUM(CASE WHEN t.tgs_status = "Selesai" OR t.tgs_persentasi_progress = 100 THEN 1 ELSE 0 END) as completed_tasks
+                    SUM(CASE WHEN t.tgs_status = "Completed" OR t.tgs_persentasi_progress = 100 THEN 1 ELSE 0 END) as completed_tasks
                 FROM projek p
                 LEFT JOIN modul m ON p.pjk_id = m.pjk_id
                 LEFT JOIN kegiatan k ON m.mdl_id = k.mdl_id
